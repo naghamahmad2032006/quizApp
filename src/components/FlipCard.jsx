@@ -6,7 +6,7 @@ export const FlipCard = ({
   imageSrc,
   description = "Description here.",
   correctAnswer = true,
-  flipDelay = 10000, // ms before auto‑flip
+  flipDelay = 7000, // ms before auto‑flip
   answerTime = 30000, // ms to answer after flip
   onAnswer, // (correct: boolean) => void
 }) => {

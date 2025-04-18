@@ -46,7 +46,7 @@ const questions = [
   {
     subject: "Circulation",
     imageSrc: img5,
-    description: "Circulation is the movement of blood throughout the body. ",
+    description: "Circulation is the movement of blood throughout the body.",
     correctAnswer: true,
   },
   {
@@ -64,7 +64,7 @@ const questions = [
   {
     subject: "Heimlich maneuver",
     imageSrc: img8,
-    description: "The Heimlich maneuver helps clear an obstructed airway. ",
+    description: "The Heimlich maneuver helps clear an obstructed airway.",
     correctAnswer: true,
   },
   {
@@ -118,14 +118,28 @@ const questions = [
 ];
 
 export const Quiz = () => {
+  const [started, setStarted] = useState(false);
   const [current, setCurrent] = useState(0);
   const [score, setScore] = useState(0);
 
   const handleAnswer = (correct) => {
     if (correct) setScore((s) => s + 1);
-    // pause so user sees green/red, then next
     setTimeout(() => setCurrent((c) => c + 1), 1000);
   };
+
+  if (!started) {
+    return (
+      <div className="p-8 flex flex-col justify-center items-center h-screen">
+        <h1 className="text-3xl font-bold mb-6">Medical Terminology Quiz</h1>
+        <button
+          onClick={() => setStarted(true)}
+          className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+        >
+          Start Quiz
+        </button>
+      </div>
+    );
+  }
 
   if (current >= questions.length) {
     return (
@@ -133,7 +147,7 @@ export const Quiz = () => {
         <h2 className="text-2xl font-bold mb-4">Quiz Completed!</h2>
         <p
           className={`text-lg  ${
-            score >= 8 ? "text-green-500" : "text-red-500"
+            score >= questions.length / 2 ? "text-green-500" : "text-red-500"
           }`}
         >
           Your score: <span className="font-semibold">{score}</span> /{" "}
@@ -141,10 +155,11 @@ export const Quiz = () => {
         </p>
         <h2>
           This project was completed by:{" "}
-          <span className="font-bold">Nagham Al-Shuokhe</span> ,
-          <span className="font-bold">Rawaa Shafi</span> ,
-          <span className="font-bold">Wiam Warasneh</span>,
-          <span className="font-bold">Tabarak Ahmad</span> <br />
+          <span className="font-bold">Nagham Al-Shuokhe</span>,{" "}
+          <span className="font-bold">Rawaa Shafi</span>,{" "}
+          <span className="font-bold">Wiam Warasneh</span>,{" "}
+          <span className="font-bold">Tabarak Ahmad</span>
+          <br />
           <br />
           <span className="font-extrabold">
             special thanks to Dr. Noor Iamar.
@@ -164,11 +179,10 @@ export const Quiz = () => {
         imageSrc={imageSrc}
         description={description}
         correctAnswer={correctAnswer}
-        flipDelay={10000} // flip after 10s
-        answerTime={30000} // 30s to answer
+        flipDelay={10000}
+        answerTime={30000}
         onAnswer={handleAnswer}
       />
-
       <p className="text-lg">
         Question {current + 1} / {questions.length}
       </p>
